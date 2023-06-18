@@ -82,12 +82,13 @@ class cross_efficientNet_handler(BaseHandler):
             byte_image = self.base64_to_img(data)
             img = Image.open(io.BytesIO(byte_image)).convert('RGB')       
             boxes = self.detector.detect(img,landmarks=False)
-            boxes = boxes[0][0]
-            xmin, ymin, xmax, ymax = boxes[0],boxes[1],boxes[2],boxes[3]
-            img = img.crop((xmin,ymin,xmax,ymax))
-            img.save('./temp.png')
-            img = transform(image=cv2.imread('./temp.png'))['image']
-            images.append(img)
+            if boxes is not None:
+                boxes = boxes[0][0]
+                xmin, ymin, xmax, ymax = boxes[0],boxes[1],boxes[2],boxes[3]
+                img = img.crop((xmin,ymin,xmax,ymax))
+                img.save('./temp.png')
+                img = transform(image=cv2.imread('./temp.png'))['image']
+                images.append(img)
         
         
         
