@@ -20,5 +20,6 @@ you can use 4,5 scripts
 10. Kubectl apply -f gateway.yaml 실행
 11. kubectl port-forward --address=0.0.0.0 svc/istio-ingressgateway -n istio-system 8080:443 https 세팅 해주기
 12. kubectl edit configmaps -n kserve inferenceservice-config
+13. ingressgateway 설정 해줘야함 ingressgateway.png에 있는 것 처럼 하면 됨. 설정하러 가는 명령어는 12번과 같음.
 
 위의 설정들을 통해 https와, ingressgateway의 접근 권한 및 포트포워딩 권한을 취득할 수 있음.
