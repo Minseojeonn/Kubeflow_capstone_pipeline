@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
-from efficient_net.efficientnet_pytorch import EfficientNet
+from model import EfficientNet
 
 # helpers
 
