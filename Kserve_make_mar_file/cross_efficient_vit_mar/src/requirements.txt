@@ -1,0 +1,9 @@
+absl-py==0.13.0
+kserve==0.8.0
+einops==0.3.0
+efficientnet_pytorch==0.7.1
+numpy==1.19.5
+albumentations==0.5.2
+opencv-python==4.5.5.64
+opencv-python-headless==4.5.5.64
+facenet-pytorch==2.5.2

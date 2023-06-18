@@ -1,0 +1,14 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "torchserve"
+spec:
+  predictor:
+    serviceAccountName: 'sa'
+    pytorch:
+      storageUri: s3://crossefficientcluster
+      resources:
+        limits:
+          memory: 4Gi
+          nvidia.com/gpu: "1"
+          cpu: "5"
