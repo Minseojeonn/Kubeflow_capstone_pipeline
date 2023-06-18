@@ -1,2 +1,3 @@
-/Kserve_make_mar_file/ckpt/
-/Kserve_make_mar_file/efficient.mar
+*.mar
+*.pt
+*.pth
