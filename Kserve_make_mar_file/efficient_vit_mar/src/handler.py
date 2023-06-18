@@ -82,7 +82,7 @@ class efficientNet_handler(BaseHandler):
             byte_image = self.base64_to_img(data)
             img = Image.open(io.BytesIO(byte_image)).convert('RGB')       
             boxes = self.detector.detect(img,landmarks=False)
-            if boxes is not None:
+            if boxes[0] is not None:
                 boxes = boxes[0][0]
                 xmin, ymin, xmax, ymax = boxes[0],boxes[1],boxes[2],boxes[3]
                 img = img.crop((xmin,ymin,xmax,ymax))
