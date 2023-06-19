@@ -63,7 +63,7 @@ with open(config_path, 'r') as ymlfile:
     config = yaml.safe_load(ymlfile)
     
 model = EfficientViT(config=config, channels=1280, selected_efficient_net = 0)
-model.train()
+
 optimizer = torch.optim.SGD(model.parameters(), lr=config['training']['lr'], weight_decay=config['training']['weight-decay'])
 scheduler = lr_scheduler.StepLR(optimizer, step_size=config['training']['step-size'], gamma=config['training']['gamma'])
 starting_epoch = 0
@@ -79,6 +79,7 @@ counter = 0
 not_improved_loss = 0
 previous_loss = math.inf
 for t in range(starting_epoch, num_epochs):
+    model.train()
     if not_improved_loss == patience:
         break
     counter = 0
@@ -98,7 +99,7 @@ for t in range(starting_epoch, num_epochs):
         y_pred = model(images)
         y_pred = y_pred.cpu()
         
-        loss = loss_fn(y_pred, labels)
+        loss = loss_fn(y_pred.float(), labels.float())
     
         corrects, positive_class, negative_class = check_correct(y_pred, labels)  
         train_correct += corrects
@@ -125,6 +126,7 @@ for t in range(starting_epoch, num_epochs):
     val_counter = 0
     train_correct /= len(train_dataset)
     total_loss /= counter
+    model.eval()
     for index, (val_images, val_labels) in enumerate(val_dl):
 
         val_images = np.transpose(val_images, (0, 3, 1, 2))
@@ -133,7 +135,7 @@ for t in range(starting_epoch, num_epochs):
         val_labels = val_labels.unsqueeze(1)
         val_pred = model(val_images)
         val_pred = val_pred.cpu()
-        val_loss = loss_fn(val_pred, val_labels)
+        val_loss = loss_fn(val_pred.float(), val_labels.float())
         total_val_loss += round(val_loss.item(), 2)
         corrects, positive_class, negative_class = check_correct(val_pred, val_labels)
         val_correct += corrects
@@ -156,8 +158,8 @@ for t in range(starting_epoch, num_epochs):
     
     previous_loss = total_val_loss
     print("#" + str(t) + "/" + str(num_epochs) + " loss:" +
-        str(total_loss) + " accuracy:" + str(train_correct) +" val_loss:" + str(total_val_loss) + " val_accuracy:" + str(val_correct) + " val_0s:" + str(val_negative) + "/" + str(np.count_nonzero(validation_labels == 0)) + " val_1s:" + str(val_positive) + "/" + str(np.count_nonzero(validation_labels == 1)))
+        str(total_loss) + " accuracy:" + str(train_correct) +" val_loss:" + str(total_val_loss) + " val_accuracy:" + str(val_correct) + " val_los:" + str(val_negative))
 
     if not os.path.exists(MODELS_PATH):
         os.makedirs(MODELS_PATH)
-    torch.save(model.state_dict(), os.path.join(MODELS_PATH,  "efficientnetB"+str("0")+"_checkpoint" + str(t) + "_"))
+    torch.save(model.state_dict(), os.path.join(MODELS_PATH,  "efficientnetB"+str("0")+"_checkpoint" + str(t) + "_.pth"))
