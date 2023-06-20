@@ -22,7 +22,7 @@ from torch.optim import lr_scheduler
 import math
 want_transfer_learning = True
 model_path = './weight/efficient_vit.pth'
-MODELS_PATH = './weight/'
+ 
 batch_size = 32
 num_epochs = 30
 patience = 5
@@ -30,6 +30,7 @@ train_ratio = 0.8
 
 def main(args):
     #Data Loader
+    MODELS_PATH = args.savepath    
     data_path = args.path
     dataset_imgfloder = ImageFolder(data_path)
     dataset_data_path = [Image.open(i[0]) for i in dataset_imgfloder.imgs]
@@ -53,13 +54,13 @@ def main(args):
     val_dataset = DeepFakesDataset(np.asarray(val_data_path, dtype=object), np.asarray(val_data_label), 224 , mode='validation')
 
     dl = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, sampler=None,
-                                    batch_sampler=None, num_workers=1, collate_fn=None,
+                                    batch_sampler=None, num_workers=0, collate_fn=None,
                                     pin_memory=False, drop_last=False, timeout=0,
                                     worker_init_fn=None, prefetch_factor=2,
                                     persistent_workers=False)
 
     val_dl = DataLoader(val_dataset, batch_size=batch_size, shuffle=True, sampler=None,
-                                    batch_sampler=None, num_workers=1, collate_fn=None,
+                                    batch_sampler=None, num_workers=0, collate_fn=None,
                                     pin_memory=False, drop_last=False, timeout=0,
                                     worker_init_fn=None, prefetch_factor=2,
                                     persistent_workers=False)
@@ -177,7 +178,7 @@ if __name__ == '__main__':
 
     # 입력받을 명령 줄 인수 추가
     parser.add_argument('--path', type=str, help='video_path')
-
+    parser.add_argument('--savepath', type=str, help='pt_save_path')
     # 명령 줄 인수 파싱
     args = parser.parse_args()
 

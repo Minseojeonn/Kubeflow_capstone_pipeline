@@ -68,7 +68,7 @@ def main(args):
     file_list_true = read_file_name(video_path+"/True")
     file_list_false = read_file_name(video_path+"/False")
     
-    # 프레임 단위로 사진 저장
+    # 프레임 단위로 사진 저장a
     for video_name in file_list_true:
         save_frames(video_path+"/True/"+video_name, output_folder, True)
     for video_name in file_list_false:
