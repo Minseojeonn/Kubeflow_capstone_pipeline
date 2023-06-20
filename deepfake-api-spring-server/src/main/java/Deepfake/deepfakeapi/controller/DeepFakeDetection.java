@@ -33,15 +33,18 @@ import java.util.*;
 
 public class DeepFakeDetection {
 
+    /*
+        딥페이크 검출 진행과 검출 결과값을 리스트로 하여 반환
+     */
     public ArrayList<Double> detectDeepFake(ArrayList<File> fileArr) throws Exception {
 
-        ArrayList<Double> predictResult = new ArrayList<>();
-        ArrayList<File> fileBatch = new ArrayList<>();
+        ArrayList<Double> predictResult = new ArrayList<>(); // 모든 검출 결과값을 저장할 array
+        ArrayList<File> fileBatch = new ArrayList<>(); // 파일이 많은 경우 batchSize 단위로 잘라 서버에 전송
         if(!fileArr.isEmpty()){
             int i = 0;
             for (File file : fileArr) {
-                if(i == 5){
-                    ArrayList<Double> predictArr = deepFake(fileBatch);
+                if(i == 5){ // batchsize 6개로 지정
+                    ArrayList<Double> predictArr = deepFake(fileBatch); // 파일 batch 만큼 보내어 딥페이크 검출 진행
                     for(Double predict : predictArr){
                         predictResult.add(predict);
                     }
@@ -61,19 +64,20 @@ public class DeepFakeDetection {
         }
         return predictResult;
     }
+
     /*
-        딥페이크 검출 서버로 연결하여 예측값 리턴
+        딥페이크 검출 서버로 연결하여 예측값 응답받기
      */
     public ArrayList<Double> deepFake(ArrayList<File> imgFileArray) throws Exception{
 
         String efficientModel = "http://dslabjbnu.iptime.org:8083/predictions/efficient";
         String crossEfficientModel = "http://dslabjbnu.iptime.org:8082/predictions/cross_efficient";
 
-        RestTemplate restTemplate = makeRestTemplate(true);
+        RestTemplate restTemplate = makeRestTemplate(true); // api 호출을 위한 restTemplate
 
         // http 헤더 세팅
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON); // json 형태 전송
 
         // 전송할 Body
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -91,22 +95,26 @@ public class DeepFakeDetection {
         HttpEntity<?> requestMessage = new HttpEntity<>(body, httpHeaders);
 
         // API 서버에 요청 보낸 후 응답 받기
+        int modelNumber = 2;
         ResponseEntity<String> predictResponse1 = restTemplate.postForEntity(efficientModel, requestMessage, String.class); // efficient_vit model
         ResponseEntity<String> predictResponse2 = restTemplate.postForEntity(crossEfficientModel, requestMessage, String.class); // cross_efficient_vit model
 
         // 두 모델에서의 예측 결과 응답
-        ArrayList<Double> predictArr1 = parsingPrediction(predictResponse1.getBody());
-        ArrayList<Double> predictArr2 = parsingPrediction(predictResponse2.getBody());
+        ArrayList<Double> predictArr1 = parsingResponse(predictResponse1.getBody());
+        ArrayList<Double> predictArr2 = parsingResponse(predictResponse2.getBody());
 
         // 앙상블 소프트 보팅 결과
         ArrayList<Double> softVotingResult = new ArrayList<>();
         for(int i=0; i<predictArr1.size(); i++){
-            softVotingResult.add((predictArr1.get(i) + predictArr2.get(i)) / 2.0);
+            softVotingResult.add((predictArr1.get(i) + predictArr2.get(i)) / (double)modelNumber);
         }
         return softVotingResult;
     }
 
-    private ArrayList<Double> parsingPrediction(String response) throws Exception{
+    /*
+        String 형 response 에서 prediction 실수값들을 파싱하여 array 저장
+     */
+    private ArrayList<Double> parsingResponse(String response) throws Exception{
 
         ArrayList<Double> predictArr = new ArrayList<>(); // prediction 값을 저장할 리스트
 
@@ -173,5 +181,4 @@ public class DeepFakeDetection {
             return new RestTemplate();
         }
     }
-
 }

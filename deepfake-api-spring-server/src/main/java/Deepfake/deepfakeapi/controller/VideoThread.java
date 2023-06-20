@@ -1,5 +1,9 @@
 package Deepfake.deepfakeapi.controller;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifIFD0Directory;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.io.FileChannelWrapper;
 import org.jcodec.common.io.NIOUtils;
@@ -11,8 +15,11 @@ import org.springframework.scheduling.annotation.Async;
 
 import javax.imageio.ImageIO;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.Buffer;
 
 public class VideoThread extends Thread {
     private int threadNo;
@@ -42,7 +49,7 @@ public class VideoThread extends Thread {
             while(true){
                 if(t % threadSize == threadNo){
                     double startSec = t * plusSize;
-                    if(startSec > videoDuration){
+                    if(startSec > videoDuration){ // 동영상 총 길이를 초과하면 멈춤
                         break;
                     }
 
@@ -55,7 +62,6 @@ public class VideoThread extends Thread {
                         Picture picture = frameGrab.getNativeFrame();
 
                         BufferedImage bufferedImage = AWTUtil.toBufferedImage(picture);
-                        //ImageIO.write(bufferedImage, "png", new File("C:/Users/HAYOUNG LEE/Desktop/deepfake-api/files/video/frame" + t + ".png"));
                         ImageIO.write(bufferedImage, "png", new File(savedPath + "/frame" + t + ".png"));
                     }
                 }
@@ -65,4 +71,5 @@ public class VideoThread extends Thread {
             e.printStackTrace();
         }
     }
+
 }

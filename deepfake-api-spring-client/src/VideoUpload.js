@@ -28,6 +28,9 @@ export default function VideoUpload(){
         const formData = new FormData();
         formData.append('file', file);
         console.log(file)
+        
+        alert("동영상 업로드 성공!");
+        navigate("/")
 
         axios({
             method:"post",
@@ -35,16 +38,12 @@ export default function VideoUpload(){
             data: formData
         })
             .then((response)=>{
-                if(response.status === 200){
-                    alert("파일 업로드 성공!")
-                    navigate("/")
-                } else {
+                if(response.status !== 200){
                     alert("서버에 파일 업로드하는 것을 실패했습니다.")
                 }
             })
             .catch((error) => {
             })
-
     }
 
     return (
@@ -57,7 +56,7 @@ export default function VideoUpload(){
                 className="VideoInput_input"
                 type="file"
                 onChange={handleFileChange}
-                accept=".mov,.mp4"
+                accept="video/*"
                 style={{display: "none"}}
             />
             <Button type={"primary"} variant={"contained"} onClick={() => inputRef.click()}>

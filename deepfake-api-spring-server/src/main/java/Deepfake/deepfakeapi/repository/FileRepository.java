@@ -1,11 +1,11 @@
 package Deepfake.deepfakeapi.repository;
 
 import Deepfake.deepfakeapi.domain.FileEntity;
+import Deepfake.deepfakeapi.domain.HtmlFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +23,14 @@ public class FileRepository {
         }
     }
 
-    public FileEntity findOne(Long id){
-        return em.find(FileEntity.class, id);
-    }
-
-    public FileEntity findByfileName(String filename){
+    public Optional<FileEntity> findByfileName(String filename){
         return em.createQuery("select f from FileEntity f where f.storedFilename = :filename", FileEntity.class)
                 .setParameter("filename", filename)
-                .getSingleResult();
+                .getResultList().stream().findFirst();
+    }
 
+    public List<FileEntity> findAll(){
+        return em.createQuery("select f from FileEntity f", FileEntity.class).getResultList();
     }
 
 }

@@ -15,6 +15,14 @@ function App() {
         navigate('./VideoUpload')
     }
 
+    const goViewer = () => {
+        navigate('./webViewer')
+    }
+    const videoUploadResult = () => {
+        navigate('./VideoUploadResult')
+    }
+
+
     return (
         <div align={"center"}>
             <Button type={"primary"} variant={"contained"} onClick={goWebEditor}>
@@ -22,6 +30,12 @@ function App() {
             </Button>
             <Button type={"primary"} variant={"contained"} onClick={VideoUpload}>
                 동영상 업로드
+            </Button>
+            <Button type={"primary"} variant={"contained"} onClick={goViewer}>
+                게시글 보기
+            </Button>
+            <Button type={"primary"} variant={"contained"} onClick={videoUploadResult}>
+                동영상 업로드 결과보기
             </Button>
         </div>
     );
