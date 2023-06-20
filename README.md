@@ -7,7 +7,7 @@
 ## 아래는 각 폴더의 설명입니다. 각 폴더별로 리드미가 존재합니다.
 ### 1. 쿠버네티스 클러스터 구축 및 쿠베플로우 설치(setup_kubenetes_cluster_and_kubeflow)
 ### 2. 쿠버네티스 파이프 라인을 위한 폴더(Pipeline)
-### 3. 쿠버네티스 KSERVE 기능을 위한 폴더(Kserve_make_mar_file)
+### 3. 쿠버네티스 API서버를 위한 폴더(Kserve_make_mar_file)
 ### 4. 딥페이크 탐치 추론 모델(custum_trainer)
 ### 5. 클라이언트측 자바-스프링(deepfake-api-spring-client) 
 ### 6. 서버측 자바-스프링(deepfake-api-spring-server)
