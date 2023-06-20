@@ -54,7 +54,7 @@ public class VideoController {
             predictSum += predict;
         }
         if(isDeepFake != 1){
-            if(predictSum / predictResult.size() >= 0.65){ // 모든 프레임 평균 예측이 0.65 이상일 때
+            if(predictSum / predictResult.size() >= 0.55){ // 모든 프레임 평균 예측이 0.65 이상일 때
                 isDeepFake = 1;
             }
         }

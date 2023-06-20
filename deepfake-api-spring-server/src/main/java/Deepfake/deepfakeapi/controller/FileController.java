@@ -127,7 +127,7 @@ public class FileController {
 
             for(int i=0; i<predictResult.size(); i++){
                 File deepFakeFile = imgFileArray.get(i);
-                if(predictResult.get(i) >= 0.65){ // 딥페이크 검출값이 0.65 이상일 때 해당 이미지는 딥페이크 판단
+                if(predictResult.get(i) >= 0.55){ // 딥페이크 검출값이 0.65 이상일 때 해당 이미지는 딥페이크 판단
                     fileService.updateDeepFake(deepFakeFile.getName().replace(".png", ""), 1); // 해당 이미지 파일의 딥페이크 여부 1로 갱신
                 }else{
                     fileService.updateDeepFake(deepFakeFile.getName().replace(".png", ""), 0);
