@@ -5,3 +5,5 @@ under commad.
 docker build -t <your dockerhub repo name>/<your tag> . 
 
 docker push <your img tag> 
+
+Other folders and files are using for "COPY . /src" at dockerfile
