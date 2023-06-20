@@ -9,4 +9,4 @@ RUN apt-get install -y git
 RUN apt-get install -y libglib2.0-0
 RUN pip install --upgrade pip
 RUN pip install -r /require/requirements.txt
-ENTRYPOINT ["python", "1_videos_to_img_with_extract_face_and_crop.py"]
+CMD ["python", "2_train_efficient_vit.py"]
