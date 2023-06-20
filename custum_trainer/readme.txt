@@ -1,4 +1,5 @@
-This codes make for training.
+This codes make for training at local
+You don't have to Using this folder.
 
 
 it can use 
