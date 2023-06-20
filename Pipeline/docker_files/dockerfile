@@ -1,0 +1,12 @@
+FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
+COPY . /require
+ENV PYTHONUMBUFFERD 1
+WORKDIR /require
+RUN apt update
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+RUN apt-get install -y vim
+RUN apt-get install -y git
+RUN apt-get install -y libglib2.0-0
+RUN pip install --upgrade pip
+RUN pip install -r /require/requirements.txt
+ENTRYPOINT ["python", "1_videos_to_img_with_extract_face_and_crop.py"]

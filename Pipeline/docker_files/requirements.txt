@@ -1,0 +1,12 @@
+numpy
+absl-py
+kserve
+einops
+efficientnet_pytorch
+opencv-python
+opencv-python-headless
+facenet-pytorch
+sh
+albumentations==0.5.2
+progress
+scikit-learn	
