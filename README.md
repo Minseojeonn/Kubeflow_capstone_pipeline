@@ -8,7 +8,7 @@ GitHub 구성은 6개의 폴더로 이루어지며 각 폴더는 구현해야 �
 
 ## 역할 분담
 
-전민서 : Kuberflow, ML model, ML rest api, Kubeflow
+전민서 : Kuberflow, ML model, ML rest api, Kubeflow <br>
 이혜인 : Web client, Web server 
 
 📌 Tool & language <br>
