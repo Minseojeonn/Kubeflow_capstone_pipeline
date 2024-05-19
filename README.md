@@ -6,6 +6,11 @@
 GitHub 구성은 6개의 폴더로 이루어지며 각 폴더는 구현해야 할 기능별로 나누어져 있습니다.<br>
 각 폴더별로 README와 COMMAND 파일을 만들어 사용법을 작성 해 두었습니다. <br>
 
+## 역할 분담
+
+전민서 : Kuberflow, ML model, ML rest api, Kubeflow
+이혜인 : Web client, Web server 
+
 📌 Tool & language <br>
 <img src="https://img.shields.io/badge/java-F7DF1E?style=flat&logo=java&logoColor=white"/>
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=white"/>
@@ -29,3 +34,4 @@ GitHub 구성은 6개의 폴더로 이루어지며 각 폴더는 구현해야 �
 ### 4. 딥페이크 탐치 추론 모델(custum_trainer)
 ### 5. 클라이언트측 React (deepfake-api-spring-client) 
 ### 6. 서버측 자바-스프링(deepfake-api-spring-server)
+
